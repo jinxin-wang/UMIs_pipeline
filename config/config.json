@@ -1,0 +1,8 @@
+{
+    "TUMOR_ONLY": True,
+    "REF": {
+        "INDEX" : "/mnt/beegfs/scratch/Lg_PANUNZI/Konstantin/gatk/human_g1k_v37.fasta",
+        "DICT"  : "/mnt/beegfs/scratch/Lg_PANUNZI/Konstantin/gatk/human_g1k_v37.dict",
+        "TARGET_REGION" : "resources/Probes_XGEN.E373FE36033044F6B6C617C498358E44.merged.bed"
+    },
+}

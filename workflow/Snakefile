@@ -1,0 +1,54 @@
+## This pipeline is for processing next generation sequencing data containing 
+## unique molecular identifiers, starting from FASTQ or similar raw data through 
+## making variant calls. 
+
+import os
+
+## Collecting information on files to produce
+
+TSAMPLE = []
+NSAMPLE = []
+
+if os.path.isfile("variant_call_list.tsv"):
+    with open("variant_call_list.tsv",'r')  as SAMPLE_INPUT_LIST: 
+        for line in SAMPLE_INPUT_LIST :
+            tmp = line.strip().split('\t')
+            tsample = tmp[0]
+            TSAMPLE.append(tsample)
+            if config["TUMOR_ONLY"] == False:
+                nsample = tmp[1]
+                NSAMPLE.append(nsample)
+
+
+wildcard_constraints:
+    sample = '|'.join([re.escape(x) for x in NSAMPLE + TSAMPLE])
+
+rule all:
+    input:
+        expand('bam/{sample}.consensus.mapped.filtered.clipped.bam', sample = NSAMPLE + TSAMPLE),
+        expand('vcf/{sample}.vcf', sample = NSAMPLE + TSAMPLE),
+
+#######################################################
+#### A. Construct an unmapped BAM tagged with UMIs ####
+#######################################################
+
+#### unmapped BAM files ####
+include: "rules/fastq2sam.smk"
+
+#### Extract UMIs from unmapped BAM files #### 
+include: "rules/tag_with_umis.smk"
+
+#######################################################
+#### B. Align reads                                ####
+#######################################################
+include: "rules/align_and_merge.smk"
+
+#######################################################
+#### C. Map BAM to consensus reads                 ####
+#######################################################
+include: "rules/map_bam.smk"
+
+#######################################################
+#### D. Produce variant calls from consensus reads ####
+#######################################################
+include: "rules/produce_vcf.smk"

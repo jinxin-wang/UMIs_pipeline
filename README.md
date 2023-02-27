@@ -2,7 +2,8 @@
 
 [![Snakemake](https://img.shields.io/badge/snakemake-≥6.3.0-brightgreen.svg)](https://snakemake.github.io)
 
-A Snakemake workflow for humain/mouse WGS/WES analysis. 
+xGen® Duplex Seq Adapters—Tech Access:
+Processing sequence data with unique molecular identifiers (UMIs)
 
 ## Usage
 #### On flamingo [Slurm]

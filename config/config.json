@@ -6,6 +6,7 @@
     "REF": {
         "INDEX" : "/mnt/beegfs/scratch/Lg_PANUNZI/Konstantin/gatk/human_g1k_v37.fasta",
         "DICT"  : "/mnt/beegfs/scratch/Lg_PANUNZI/Konstantin/gatk/human_g1k_v37.dict",
-        "TARGET_REGION" : "resources/Probes_XGEN.E373FE36033044F6B6C617C498358E44.merged.bed"
+        "TARGET_REGION" : "resources/Probes_XGEN.E373FE36033044F6B6C617C498358E44.merged.bed",
+        "MUTECT_FILTER" : "/mnt/beegfs/userdata/i_padioleau/genome_data/b37_GATK/small_exac_common_3_b37.vcf"
     },
 }

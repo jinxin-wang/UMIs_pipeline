@@ -10,7 +10,7 @@ rule merge_align:
     log:
         "logs/bam/{sample}.mapped.bam.log"
     params:
-        queue = "mediumq",
+        queue = "shortq",
         index = config["REF"]["INDEX"]
     threads: 16
     resources:

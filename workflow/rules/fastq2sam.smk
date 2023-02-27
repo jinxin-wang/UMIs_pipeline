@@ -17,7 +17,7 @@ rule fastq_to_sam:
     log:
         "logs/sam/{sample}.unmapped.bam.log"
     params:
-        queue = "mediumq",
+        queue = "shortq",
         sample= "{sample}",
     threads: 16
     resources:

@@ -14,7 +14,7 @@ rule clip_fltered_bam:
     log:
         "logs/bam/{sample}.consensus.mapped.filtered.clipped.bam.log"
     params:
-        queue = "mediumq",
+        queue = "shortq",
         index = config["REF"]["INDEX"]
     threads: 16
     resources:
@@ -41,26 +41,21 @@ rule produce_vcf_tumor_only_step1:
     log:
         "logs/vcf/{sample}.tmp.vcf.log"
     params:
-        queue = "mediumq",
+        queue = "shortq",
         min_af= 0.01,
         index = config["REF"]["INDEX"],
-        target_region = config["REF"]["TARGET_REGION"]
+        target_region = config["REF"]["TARGET_REGION"],
+        sample= "{sample}",
     threads: 16
     resources:
         mem_mb = 51200
     conda: "UMIs"
     shell:
-        "vardict-java "
-        "  -G {params.index} "
-        "  -N {sample} "
-        "  -f {params.min_af} "
-        "  -b {input} "
-        "  -z -c 1 -s 2 -E 3 -g 4 -th 4 "
-        "  {params.target_region} "
-        "  | teststrandbias.R "
-        "  | var2vcf_valid.pl -N {sample} -E -f {params.min_af} "
-        "  awk '{if ($1 ~ /^#/) print; else if ($4 != $5) print}' " 
-        "  > {output} 2> {log}"
+        "vardict-java -G {params.index} -N {params.sample} -f {params.min_af} -b {input} -z -c 1 -S 2 -E 3 -g 4 -th 16 {params.target_region} "
+        " | teststrandbias.R "
+        " | var2vcf_valid.pl -N {params.sample} -E -f {params.min_af} "
+        " | awk '{{if ($1 ~ /^#/) print; else if ($4 != $5) print }}' "
+        " 1> {output} 2> {log} "
 
 rule produce_vcf_tumor_only_step2:
     input:
@@ -70,12 +65,12 @@ rule produce_vcf_tumor_only_step2:
     log:
         "logs/bam/{sample}.vcf.log"
     params:
-        queue = "mediumq",
+        queue = "shortq",
         min_af= 0.01,
         dict = config["REF"]["DICT"],
-    threads: 16
+    threads: 4
     resources:
-        mem_mb = 51200
+        mem_mb = 25600
     conda: "UMIs"
     shell:
         " picard SortVcf "

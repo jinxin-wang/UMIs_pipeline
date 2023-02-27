@@ -1,5 +1,8 @@
 {
     "TUMOR_ONLY": True,
+    "APP": {
+        "PICARD" : "~/.conda/envs/UMIs/share/picard-2.9.0-0/picard.jar"
+    },
     "REF": {
         "INDEX" : "/mnt/beegfs/scratch/Lg_PANUNZI/Konstantin/gatk/human_g1k_v37.fasta",
         "DICT"  : "/mnt/beegfs/scratch/Lg_PANUNZI/Konstantin/gatk/human_g1k_v37.dict",

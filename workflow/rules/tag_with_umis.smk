@@ -16,7 +16,7 @@ rule tag_with_umis:
     log:
         "logs/bam/{sample}.unmapped.withUMI.bam.log"
     params:
-        queue = "mediumq",
+        queue = "shortq",
     threads: 16
     resources:
         mem_mb = 51200

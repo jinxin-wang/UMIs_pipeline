@@ -21,7 +21,7 @@ rule group_reads:
     log:
         "logs/bam/{sample}.grouped.bam.log"
     params:
-        queue = "mediumq",
+        queue = "shortq",
     threads: 16
     resources:
         mem_mb = 51200
@@ -57,7 +57,7 @@ rule combine_reads:
     log:
         "logs/bam/{sample}.consensus.unmapped.bam.log"
     params:
-        queue = "mediumq",
+        queue = "shortq",
     threads: 16
     resources:
         mem_mb = 51200
@@ -83,16 +83,19 @@ rule remap_consensus_reads:
     log:
         "logs/bam/{sample}.consensus.mapped.bam.log"
     params:
-        queue = "mediumq",
-        index = config["REF"]["INDEX"]
+        queue = "shortq",
+        index = config["REF"]["INDEX"],
+        picard= config["APP"]["PICARD"],
     threads: 16
     resources:
         mem_mb = 51200
     conda: "UMIs"
     shell:
-        "picard SamToFastq I={input} F=/dev/stdout INTERLEAVE=true "
+        "java -Xmx8g -jar {params.picard} SamToFastq "
+        " I={input} F=/dev/stdout INTERLEAVE=true "
         " | bwa mem -p -t 16 {params.index} /dev/stdin "
-        " | picard MergeBamAlignment ALIGNED=/dev/stdin UNMAPPED={input} O={output} R={params.index} "
+        " | java -Xmx32g -jar {params.picard} MergeBamAlignment ALIGNED=/dev/stdin "
+        "     UNMAPPED={input} O={output} R={params.index} "
         "     SO=coordinate ALIGNER_PROPER_PAIR_FLAGS=true MAX_GAPS=-1 "
         "     ORIENTATIONS=FR VALIDATION_STRINGENCY=SILENT CREATE_INDEX=true 2> {log} "
 
@@ -123,7 +126,7 @@ rule filter_consensus_reads:
     log:
         "logs/bam/{sample}.consensus.mapped.filtered.bam.log"
     params:
-        queue = "mediumq",
+        queue = "shortq",
         index = config["REF"]["INDEX"]
     threads: 16
     resources:

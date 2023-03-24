@@ -25,6 +25,7 @@ wildcard_constraints:
 
 rule all:
     input:
+        expand('HsMetrics/{sample}_HsMetrics.tsv', sample = TSAMPLE + NSAMPLE),
         expand('bam/{sample}.consensus.mapped.filtered.clipped.bam', sample = NSAMPLE + TSAMPLE),
         expand('vcf/{sample}.vcf', sample = NSAMPLE + TSAMPLE),
 
@@ -43,6 +44,9 @@ include: "rules/tag_with_umis.smk"
 #######################################################
 include: "rules/align_and_merge.smk"
 
+## check mapping stats, with GATK CollectHsMetrics
+include: "rules/hsMetrics.smk"
+    
 #######################################################
 #### C. Map BAM to consensus reads                 ####
 #######################################################

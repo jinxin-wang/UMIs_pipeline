@@ -8,8 +8,8 @@ rule collect_Hs_metrics:
     params:
         queue    = "mediumq",
         gatk     = config["gatk"]["app"],
-        bait     = config["gatk"][config["samples"]][config["seq_type"]]["hsmetrics_bait"],
-        interval = config["gatk"][config["samples"]][config["seq_type"]]["hsmetrics_interval"],
+        bait     = config["gatk"]["hsmetrics_bait"],
+        interval = config["gatk"]["hsmetrics_interval"],
     log:
         "logs/mapping_QC/{sample}_HsMetrics.log"
     threads : 4

@@ -9,4 +9,11 @@
         "TARGET_REGION" : "resources/Probes_XGEN.E373FE36033044F6B6C617C498358E44.merged.bed",
         "MUTECT_FILTER" : "/mnt/beegfs/userdata/i_padioleau/genome_data/b37_GATK/small_exac_common_3_b37.vcf"
     },
+    
+    "gatk": {
+        "app": "~/.conda/envs/GATK4/bin/gatk",
+        "version": "4.3.0.0",
+        "hsmetrics_interval": "/mnt/beegfs/userdata/i_padioleau/genome_data/b37_GATK/human_g1k_v37_major_chr_100kb_windows.interval",
+        "hsmetrics_bait": "/mnt/beegfs/userdata/i_padioleau/genome_data/b37_GATK/human_g1k_v37_major_chr_100kb_windows.interval",
+    },
 }
